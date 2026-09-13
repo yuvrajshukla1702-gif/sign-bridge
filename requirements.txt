@@ -1,0 +1,35 @@
+# Vision & landmarks
+opencv-python>=4.8.0
+mediapipe>=0.10.9
+numpy>=1.24.0
+
+# Sequence model training
+torch>=2.0.0
+scikit-learn>=1.3.0
+
+# Web app
+fastapi>=0.110.0
+uvicorn[standard]>=0.27.0
+python-multipart>=0.0.9
+Pillow>=10.0.0
+
+# Optional legacy demo UI
+streamlit>=1.28.0
+
+# Speech: Sign -> Voice
+pyttsx3>=2.90
+gTTS>=2.4.0
+
+# Speech: Voice -> Text
+SpeechRecognition>=3.10.0
+openai-whisper>=20231117
+# Optional faster local STT: pip install faster-whisper
+
+# LLM sentence polishing (pick one backend in config)
+openai>=1.0.0
+# Ollama uses local HTTP; no package required beyond requests
+requests>=2.31.0
+
+# Utilities
+python-dotenv>=1.0.0
+tqdm>=4.66.0

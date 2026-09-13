@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Bridge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/app.css?v=sent2" />
+</head>
+<body>
+  <div id="bootSplash" class="boot-splash">
+    <div class="boot-card">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <p class="brand-name">Sign Bridge</p>
+      <p id="bootStatus" class="boot-status">Starting…</p>
+    </div>
+  </div>
+  <div class="atmosphere" aria-hidden="true"></div>
+
+  <!-- ========== HOME ========== -->
+  <section id="viewHome" class="view view-home" hidden>
+    <header class="home-nav">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <p class="brand-name">Sign Bridge</p>
+      </div>
+      <div class="home-nav-actions">
+        <button type="button" class="btn btn-ghost" data-go="login">Log in</button>
+        <button type="button" class="btn btn-primary" data-go="signup">Get started</button>
+      </div>
+    </header>
+
+    <div class="home-hero">
+      <div class="home-hero-copy">
+        <p class="home-kicker">New · Interactive Practice Studio</p>
+        <h1 class="home-title">Sign Bridge</h1>
+        <p class="home-lead">
+          Live hand coaching with a hold-to-master ring, step checklist, and mirror camera —
+          then switch to two-way conversation when you’re ready.
+        </p>
+        <div class="home-cta">
+          <button type="button" class="btn btn-primary" data-go="signup">Create free account</button>
+          <button type="button" class="btn btn-ghost" id="btnGuestEnter">Try Practice Studio</button>
+        </div>
+      </div>
+      <div class="home-hero-visual" aria-hidden="true">
+        <div class="hero-orb"></div>
+        <div class="hero-hand-ring"></div>
+        <p class="hero-caption">Guide · Match · Hold · Master</p>
+      </div>
+    </div>
+
+    <section class="home-features">
+      <article>
+        <h3>Live coach</h3>
+        <p>Checklist steps light up as your handshape improves — hold steady to master each letter.</p>
+      </article>
+      <article>
+        <h3>Faster tracking</h3>
+        <p>On-device scoring + mirrored camera so feedback feels instant, not laggy.</p>
+      </article>
+      <article>
+        <h3>Live Bridge</h3>
+        <p>Two-way assistive chat: sign → spoken sentence, voice → sign visuals.</p>
+      </article>
+    </section>
+  </section>
+
+  <!-- ========== LOGIN ========== -->
+  <section id="viewLogin" class="view view-auth" hidden>
+    <div class="auth-card">
+      <button type="button" class="btn-text auth-back" data-go="home">← Back</button>
+      <p class="brand-name">Sign Bridge</p>
+      <h2>Welcome back</h2>
+      <p class="hint">Log in to continue learning and communicating.</p>
+      <form id="loginForm" class="auth-form">
+        <label>Email<input name="email" type="email" required placeholder="you@email.com" autocomplete="email" /></label>
+        <label>Password<input name="password" type="password" required minlength="6" placeholder="••••••••" autocomplete="current-password" /></label>
+        <p id="loginError" class="form-error" hidden></p>
+        <button class="btn btn-primary" type="submit">Log in</button>
+      </form>
+      <p class="auth-switch">New here? <button type="button" class="btn-text" data-go="signup">Create an account</button></p>
+    </div>
+  </section>
+
+  <!-- ========== SIGNUP ========== -->
+  <section id="viewSignup" class="view view-auth" hidden>
+    <div class="auth-card">
+      <button type="button" class="btn-text auth-back" data-go="home">← Back</button>
+      <p class="brand-name">Sign Bridge</p>
+      <h2>Create your account</h2>
+      <p class="hint">Takes under a minute. Your progress stays on this device/server.</p>
+      <form id="signupForm" class="auth-form">
+        <label>Name<input name="name" type="text" required minlength="2" placeholder="Your name" autocomplete="name" /></label>
+        <label>Email<input name="email" type="email" required placeholder="you@email.com" autocomplete="email" /></label>
+        <label>Password<input name="password" type="password" required minlength="6" placeholder="At least 6 characters" autocomplete="new-password" /></label>
+        <p id="signupError" class="form-error" hidden></p>
+        <button class="btn btn-primary" type="submit">Sign up</button>
+      </form>
+      <p class="auth-switch">Already have an account? <button type="button" class="btn-text" data-go="login">Log in</button></p>
+    </div>
+  </section>
+
+  <!-- ========== APP ========== -->
+  <section id="viewApp" class="view view-app" hidden>
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <div>
+          <p class="brand-name">Sign Bridge</p>
+          <p class="brand-tag" id="userGreeting">Signed in</p>
+        </div>
+      </div>
+
+      <nav class="mode-switch" role="tablist" aria-label="App mode">
+        <button type="button" class="mode-btn is-active" data-mode="learn" role="tab">Learning Hub</button>
+        <button type="button" class="mode-btn" data-mode="bridge" role="tab">Live Conversation</button>
+      </nav>
+
+      <div class="topbar-status">
+        <label class="cam-select-wrap" for="cameraSelect">
+          <span class="cam-select-label">Camera</span>
+          <select id="cameraSelect" class="cam-select" title="Choose laptop webcam">
+            <option value="">Detecting…</option>
+          </select>
+        </label>
+        <button id="btnCamera" class="btn btn-primary btn-compact" type="button">Start camera</button>
+        <button id="btnLogout" class="btn btn-ghost btn-compact" type="button">Log out</button>
+        <span id="modelBadge" class="badge badge-warn">Checking…</span>
+        <span id="camBadge" class="badge">Camera off</span>
+      </div>
+    </header>
+
+    <div id="emergencyBanner" class="emergency-banner" hidden>
+      <span id="emergencyText">EMERGENCY</span>
+    </div>
+
+    <main id="modeLearn" class="app-shell app-shell-learn mode-panel is-visible" data-panel="learn">
+      <section class="stage stage-learn" aria-label="Practice camera">
+        <div class="stage-frame stage-frame-learn">
+          <video id="inputVideo" playsinline muted></video>
+          <canvas id="outputCanvas"></canvas>
+
+          <div class="guide-frame" aria-hidden="true">
+            <span class="guide-hand"></span>
+            <p class="guide-label">Place your hand here</p>
+          </div>
+
+          <div class="hold-hud" id="holdHud">
+            <svg class="hold-ring" viewBox="0 0 120 120" aria-hidden="true">
+              <circle class="hold-ring-bg" cx="60" cy="60" r="52" />
+              <circle id="holdRingArc" class="hold-ring-arc" cx="60" cy="60" r="52" />
+            </svg>
+            <div class="hold-hud-core">
+              <p id="predText" class="hold-pct">—</p>
+              <p id="holdLabel" class="hold-label">Match</p>
+            </div>
+          </div>
+
+          <div class="stage-overlay stage-overlay-learn">
+            <p id="lessonPhase" class="phase-chip">Ready</p>
+            <p id="predMeta" class="pred-meta">Start camera, then copy the target sign and hold it steady.</p>
+          </div>
+
+          <div id="masterFlash" class="master-flash" hidden>
+            <p id="masterFlashText">Mastered!</p>
+          </div>
+        </div>
+      </section>
+
+      <aside class="side side-learn" aria-label="Learning panel">
+        <section class="panel panel-learn">
+          <div class="panel-head">
+            <div>
+              <p class="panel-kicker">Learning Hub</p>
+              <h2>Practice studio</h2>
+            </div>
+            <div class="seg">
+              <button type="button" class="seg-btn is-active" data-learn-tab="practice">Letters</button>
+              <button type="button" class="seg-btn" data-learn-tab="sentences">Sentences</button>
+              <button type="button" class="seg-btn" data-learn-tab="quiz">Challenge</button>
+              <button type="button" class="seg-btn" data-learn-tab="dict">Library</button>
+            </div>
+          </div>
+
+          <div id="learnPractice" class="learn-sub is-visible">
+            <div class="lesson-phases" id="lessonPhases" aria-label="Lesson progress">
+              <span data-phase="guide" class="is-active">1 Guide</span>
+              <span data-phase="match">2 Match</span>
+              <span data-phase="hold">3 Hold</span>
+              <span data-phase="done">4 Done</span>
+            </div>
+
+            <div class="target-card target-card-rich">
+              <div class="target-visual">
+                <img id="targetImg" src="/assets/signs_dict/alphabet/A.png" alt="How to sign A" />
+              </div>
+              <div class="target-copy">
+                <p class="target-key" id="targetKey">A</p>
+                <p class="remember-pill" id="targetRemember">Fist + thumb on the side = A</p>
+                <p class="hint" id="targetHint">Follow the live checklist — steps light up as your hand gets closer.</p>
+              </div>
+            </div>
+
+            <div class="how-to how-to-live">
+              <div class="how-to-head">
+                <p class="how-to-title">Live checklist</p>
+                <p id="stepProgress" class="step-progress">0 / 3</p>
+              </div>
+              <ol id="howToSteps" class="how-to-steps"></ol>
+            </div>
+
+            <div class="meter-wrap meter-wrap-rich">
+              <div class="meter"><div id="matchBar" class="meter-fill"></div></div>
+              <p id="matchPct" class="match-pct">0%</p>
+            </div>
+            <p id="coachTip" class="coach">Tips update live while your hand is in frame.</p>
+
+            <div class="lesson-actions">
+              <button id="btnNextSign" class="btn btn-primary" type="button">Next sign →</button>
+              <button id="btnReplayGuide" class="btn btn-ghost" type="button">Replay guide</button>
+            </div>
+
+            <div class="mastery-block">
+              <div class="mastery-head">
+                <p class="how-to-title">Your mastery map</p>
+                <p id="masteryCount" class="step-progress">0 mastered</p>
+              </div>
+              <div id="targetPicker" class="practice-grid mastery-grid"></div>
+            </div>
+          </div>
+
+          <div id="learnSentences" class="learn-sub">
+            <p class="hint sentence-intro">
+              Build real phrases sign-by-sign. Letters are scored live; word signs use guided motion + hold to confirm.
+            </p>
+            <div class="sentence-picker" id="sentencePicker"></div>
+
+            <div class="sentence-active">
+              <p class="sentence-english" id="sentenceEnglish">Hello</p>
+              <p class="hint" id="sentenceHint">One everyday greeting sign.</p>
+              <div class="sentence-tokens" id="sentenceTokens" aria-label="Signs in this sentence"></div>
+
+              <div class="target-card target-card-rich">
+                <div class="target-visual">
+                  <img id="sentenceImg" src="/assets/signs/hello.png" alt="Current sentence sign" />
+                </div>
+                <div class="target-copy">
+                  <p class="target-key" id="sentenceTokenLabel">HELLO</p>
+                  <p class="remember-pill" id="sentenceRemember">Open hand near temple, wave out</p>
+                  <p class="hint" id="sentenceTokenMeta">Sign 1 of 1 · phrase</p>
+                </div>
+              </div>
+
+              <div class="how-to how-to-live">
+                <div class="how-to-head">
+                  <p class="how-to-title">How to sign this part</p>
+                  <p id="sentenceStepProgress" class="step-progress">1 / 1</p>
+                </div>
+                <ol id="sentenceSteps" class="how-to-steps"></ol>
+              </div>
+
+              <div class="meter-wrap meter-wrap-rich">
+                <div class="meter"><div id="sentenceMatchBar" class="meter-fill"></div></div>
+                <p id="sentenceMatchPct" class="match-pct">0%</p>
+              </div>
+              <p id="sentenceCoach" class="coach">Start camera, then perform this sign.</p>
+
+              <div class="lesson-actions">
+                <button id="btnSentenceGotIt" class="btn btn-secondary" type="button">I signed it ✓</button>
+                <button id="btnSentenceNext" class="btn btn-primary" type="button">Next sentence →</button>
+              </div>
+            </div>
+          </div>
+
+          <div id="learnQuiz" class="learn-sub">
+            <div class="quiz-arena">
+              <p class="hint">Hit ~72% and hold briefly to clear each prompt.</p>
+              <p class="quiz-prompt">Sign this</p>
+              <p id="quizTarget" class="quiz-target">A</p>
+              <p id="quizStatus" class="hint">Waiting for camera…</p>
+              <div class="meter-wrap meter-wrap-rich">
+                <div class="meter"><div id="quizMatchBar" class="meter-fill"></div></div>
+                <p id="quizMatchPct" class="match-pct">0%</p>
+              </div>
+              <div class="row-actions">
+                <button id="btnQuizNext" class="btn btn-secondary" type="button">Skip</button>
+              </div>
+              <p class="scoreline">Cleared: <strong id="quizScore">0</strong></p>
+            </div>
+          </div>
+
+          <div id="learnDict" class="learn-sub">
+            <input id="dictSearch" class="search" type="search" placeholder="Search A–Z, numbers, phrases…" />
+            <div class="dict-filters">
+              <button type="button" class="chip-btn is-active" data-dict-cat="all">All</button>
+              <button type="button" class="chip-btn" data-dict-cat="alphabet">A–Z</button>
+              <button type="button" class="chip-btn" data-dict-cat="numbers">0–9</button>
+              <button type="button" class="chip-btn" data-dict-cat="phrases">Phrases</button>
+            </div>
+            <div id="dictGrid" class="dict-grid"></div>
+          </div>
+        </section>
+      </aside>
+    </main>
+
+    <main id="modeBridge" class="app-shell mode-panel" data-panel="bridge" hidden>
+      <section class="stage" aria-label="Live conversation camera">
+        <div class="stage-frame stage-frame-bridge">
+          <canvas id="bridgeCanvas"></canvas>
+          <div class="stage-overlay">
+            <p class="pred-label">Live prediction</p>
+            <p id="bridgePredText" class="pred-value">—</p>
+            <p id="bridgePredMeta" class="pred-meta">Sign phrases after training — or inject practice tokens</p>
+          </div>
+          <div class="stage-actions">
+            <button id="btnListen" class="btn btn-ghost" type="button">Listen</button>
+          </div>
+        </div>
+      </section>
+
+      <aside class="side" aria-label="Conversation panel">
+        <section class="panel">
+          <div class="panel-head">
+            <h2>Word buffer</h2>
+            <button id="btnClearTokens" class="btn-text" type="button">Clear</button>
+          </div>
+          <div id="tokenChips" class="chips">
+            <span class="chips-empty">Detected signs appear here</span>
+          </div>
+          <div class="row-actions">
+            <button id="btnFlush" class="btn btn-secondary" type="button">Speak sentence</button>
+          </div>
+        </section>
+        <section class="panel">
+          <div class="panel-head"><h2>Conversation</h2></div>
+          <div id="chatLog" class="chat" role="log" aria-live="polite"></div>
+        </section>
+        <section class="panel">
+          <div class="panel-head"><h2>Speech → Sign</h2></div>
+          <p id="voiceText" class="voice-text">Tap Listen, then speak a keyword like “water”.</p>
+          <div id="signHits" class="sign-hits"></div>
+        </section>
+        <section class="panel panel-emergency">
+          <div class="panel-head"><h2>Quick actions</h2></div>
+          <div class="emergency-grid">
+            <button class="btn btn-danger" data-emergency="e" type="button">Emergency / 108</button>
+            <button class="btn btn-danger" data-emergency="m" type="button">Medical help</button>
+            <button class="btn btn-warn" data-emergency="h" type="button">Need help</button>
+          </div>
+        </section>
+        <section class="panel">
+          <div class="panel-head"><h2>Practice inject</h2></div>
+          <p class="hint">No LSTM yet? Inject phrase tokens to test the bridge.</p>
+          <div id="practiceGrid" class="practice-grid"></div>
+        </section>
+      </aside>
+    </main>
+
+    <footer class="footer">
+      <span>Signed-in workspace · mirrored camera · improved hand tracking</span>
+      <span id="fpsLabel">0 FPS</span>
+    </footer>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/holistic/holistic.js" crossorigin="anonymous"></script>
+  <script src="/js/live-reload.js?v=sent2"></script>
+  <script type="module" src="/js/app.js?v=sent2"></script>
+</body>
+</html>

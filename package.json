@@ -1,0 +1,17 @@
+{
+  "name": "sign-bridge",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sign Bridge desktop shell",
+  "scripts": {
+    "tauri": "tauri",
+    "tauri:dev": "tauri dev",
+    "tauri:build": "tauri build",
+    "desktop:live": "powershell -ExecutionPolicy Bypass -File ./scripts/dev-desktop.ps1",
+    "desktop:install": "powershell -ExecutionPolicy Bypass -File ./scripts/install-desktop-shortcut.ps1",
+    "open": "powershell -ExecutionPolicy Bypass -File ./scripts/dev-desktop.ps1"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.11.4"
+  }
+}

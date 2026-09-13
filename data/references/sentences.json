@@ -1,0 +1,208 @@
+{
+  "version": 1,
+  "phrases": {
+    "hello": {
+      "title": "HELLO",
+      "image": "/assets/signs/hello.png",
+      "remember": "Open hand near temple, wave out once or twice",
+      "steps": [
+        "Raise an open hand near the side of your forehead / temple.",
+        "Palm faces the other person.",
+        "Move the hand a short wave outward (like a friendly hi)."
+      ]
+    },
+    "thank_you": {
+      "title": "THANK YOU",
+      "image": "/assets/signs/thank_you.png",
+      "remember": "Fingers on chin → move forward toward them",
+      "steps": [
+        "Touch the fingertips of an open flat hand to your chin.",
+        "Palm faces you at first.",
+        "Move the hand forward and slightly down toward the person you’re thanking."
+      ]
+    },
+    "yes": {
+      "title": "YES",
+      "image": "/assets/signs/yes.png",
+      "remember": "Fist nods like a head nodding",
+      "steps": [
+        "Make a fist (like letter S / A).",
+        "Hold it in front of you.",
+        "Nod the fist up-and-down once or twice (like nodding “yes”)."
+      ]
+    },
+    "no": {
+      "title": "NO",
+      "image": "/assets/signs/no.png",
+      "remember": "Index + middle snap shut onto thumb",
+      "steps": [
+        "Extend index and middle fingers with thumb.",
+        "Bring the two fingers down to touch the thumb (like a mouth closing).",
+        "Do it once or twice for a clear “no”."
+      ]
+    },
+    "water": {
+      "title": "WATER",
+      "image": "/assets/signs/water.png",
+      "remember": "W-hand taps the chin",
+      "steps": [
+        "Make the letter W (index, middle, ring up).",
+        "Tap the index side of that hand lightly on your chin.",
+        "Repeat a small tap so it reads clearly."
+      ]
+    },
+    "need_help": {
+      "title": "NEED / HELP",
+      "image": "/assets/signs/need_help.png",
+      "remember": "Fist on open palm — lift together",
+      "steps": [
+        "Put a fist (or A-hand) on the open palm of your other hand.",
+        "Lift both hands upward a little together.",
+        "Face the person you’re asking so the motion is clear."
+      ]
+    },
+    "hospital": {
+      "title": "HOSPITAL",
+      "image": "/assets/signs/hospital.png",
+      "remember": "Draw a cross on your upper arm",
+      "steps": [
+        "With your dominant index finger, draw a small cross (+) on your upper opposite arm.",
+        "Keep the motion compact and clear.",
+        "This is the common ASL hospital / medical cross cue."
+      ]
+    },
+    "pain": {
+      "title": "PAIN",
+      "image": "/assets/signs/pain.png",
+      "remember": "Index tips jab toward each other",
+      "steps": [
+        "Point both index fingers toward each other in front of you.",
+        "Jab them slightly toward the same spot (as if pain is there).",
+        "You can aim the motion near the body part that hurts."
+      ]
+    },
+    "emergency": {
+      "title": "EMERGENCY",
+      "image": "/assets/signs/emergency.png",
+      "remember": "Strong attention + clear HELP / emergency cue",
+      "steps": [
+        "Wave to get attention if needed.",
+        "Sign HELP clearly (fist on palm, lift).",
+        "Point to yourself or the person who needs emergency help."
+      ]
+    },
+    "medical_help": {
+      "title": "MEDICAL HELP",
+      "image": "/assets/signs/medical_help.png",
+      "remember": "Hospital cue + HELP",
+      "steps": [
+        "Sign HOSPITAL (cross on upper arm).",
+        "Then sign HELP (fist on open palm, lift).",
+        "Hold eye contact so the request is obvious."
+      ]
+    }
+  },
+  "sentences": [
+    {
+      "id": "hello",
+      "english": "Hello",
+      "level": "beginner",
+      "hint": "One everyday greeting sign.",
+      "tokens": [{ "kind": "phrase", "key": "hello", "label": "HELLO" }]
+    },
+    {
+      "id": "thank_you",
+      "english": "Thank you",
+      "level": "beginner",
+      "hint": "Polite everyday phrase.",
+      "tokens": [{ "kind": "phrase", "key": "thank_you", "label": "THANK YOU" }]
+    },
+    {
+      "id": "yes_no",
+      "english": "Yes / No",
+      "level": "beginner",
+      "hint": "Practice both answer signs in a row.",
+      "tokens": [
+        { "kind": "phrase", "key": "yes", "label": "YES" },
+        { "kind": "phrase", "key": "no", "label": "NO" }
+      ]
+    },
+    {
+      "id": "need_water",
+      "english": "I need water",
+      "level": "beginner",
+      "hint": "Point to yourself, then NEED HELP motion, then WATER.",
+      "tokens": [
+        { "kind": "letter", "key": "I", "label": "I (me)" },
+        { "kind": "phrase", "key": "need_help", "label": "NEED" },
+        { "kind": "phrase", "key": "water", "label": "WATER" }
+      ]
+    },
+    {
+      "id": "need_hospital",
+      "english": "I need a hospital",
+      "level": "everyday",
+      "hint": "Useful emergency-adjacent sentence.",
+      "tokens": [
+        { "kind": "letter", "key": "I", "label": "I" },
+        { "kind": "phrase", "key": "need_help", "label": "NEED" },
+        { "kind": "phrase", "key": "hospital", "label": "HOSPITAL" }
+      ]
+    },
+    {
+      "id": "pain_help",
+      "english": "I have pain — help",
+      "level": "everyday",
+      "hint": "Point to the sore area while signing PAIN.",
+      "tokens": [
+        { "kind": "phrase", "key": "pain", "label": "PAIN" },
+        { "kind": "phrase", "key": "need_help", "label": "HELP" }
+      ]
+    },
+    {
+      "id": "emergency_help",
+      "english": "Emergency — medical help",
+      "level": "everyday",
+      "hint": "Clear, urgent request sequence.",
+      "tokens": [
+        { "kind": "phrase", "key": "emergency", "label": "EMERGENCY" },
+        { "kind": "phrase", "key": "medical_help", "label": "MEDICAL HELP" }
+      ]
+    },
+    {
+      "id": "spell_help",
+      "english": "Fingerspell HELP",
+      "level": "fingerspell",
+      "hint": "Spell letter by letter — hold each letter to advance.",
+      "tokens": [
+        { "kind": "letter", "key": "H", "label": "H" },
+        { "kind": "letter", "key": "E", "label": "E" },
+        { "kind": "letter", "key": "L", "label": "L" },
+        { "kind": "letter", "key": "P", "label": "P" }
+      ]
+    },
+    {
+      "id": "spell_water",
+      "english": "Fingerspell WATER",
+      "level": "fingerspell",
+      "hint": "Great practice when you don’t know the full WATER sign yet.",
+      "tokens": [
+        { "kind": "letter", "key": "W", "label": "W" },
+        { "kind": "letter", "key": "A", "label": "A" },
+        { "kind": "letter", "key": "T", "label": "T" },
+        { "kind": "letter", "key": "E", "label": "E" },
+        { "kind": "letter", "key": "R", "label": "R" }
+      ]
+    },
+    {
+      "id": "hello_thank_you",
+      "english": "Hello — thank you",
+      "level": "beginner",
+      "hint": "Two-sign mini conversation.",
+      "tokens": [
+        { "kind": "phrase", "key": "hello", "label": "HELLO" },
+        { "kind": "phrase", "key": "thank_you", "label": "THANK YOU" }
+      ]
+    }
+  ]
+}
