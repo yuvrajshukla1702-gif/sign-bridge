@@ -1,10 +1,13 @@
-Place sign demonstration assets here.
+Place sign demonstration assets here (auto-generated cue cards).
 
-Name files after vocabulary labels, for example:
-- thank_you.gif
-- water.gif
-- need_help.gif
-- emergency.gif
-- medical_help.png
+Regenerate with:
+  python scripts/generate_sign_cue_cards.py
+
+Examples:
+- hello.png
+- thank_you.png
+- iloveyou.png
+- water.png
+- need_help.png
 
 Supported: .gif .png .jpg .jpeg .webp .mp4

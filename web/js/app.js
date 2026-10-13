@@ -6,7 +6,7 @@
 
 import { extractFeatures, extractPrimaryHand63, FEATURE_DIM, smoothHand63 } from "./landmarks.js";
 import { PredictionDebouncer, SequenceBuffer, SentenceBuffer } from "./buffer.js";
-import { evaluateLocal, HoldTracker, loadRefs, hasRefs, PASS_PCT, HOLD_MS } from "./coach.js";
+import { evaluateLocal, HoldTracker, loadRefs, hasRefs, loadStaticModel, hasStaticModel, PASS_PCT, HOLD_MS } from "./coach.js";
 
 const WINDOW = 30;
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
@@ -132,6 +132,9 @@ const els = {
   sentenceCoach: $("sentenceCoach"),
   btnSentenceGotIt: $("btnSentenceGotIt"),
   btnSentenceNext: $("btnSentenceNext"),
+  liveCueImg: $("liveCueImg"),
+  liveCueTitle: $("liveCueTitle"),
+  liveCueTip: $("liveCueTip"),
 };
 
 function escapeHtml(s) {
@@ -258,6 +261,12 @@ function dictUrl(key) {
   if (/^[0-9]$/.test(key)) return `/assets/signs_dict/numbers/${key}.png`;
   if (state.phrases?.[key]?.image) return state.phrases[key].image;
   return `/assets/signs/${key}.png`;
+}
+
+function updateLiveCue({ title, tip, src }) {
+  if (els.liveCueTitle) els.liveCueTitle.textContent = title || "";
+  if (els.liveCueTip) els.liveCueTip.textContent = tip || "Copy this handshape";
+  if (els.liveCueImg && src) els.liveCueImg.src = src.includes("?") ? src : `${src}?v=${Date.now()}`;
 }
 
 function loadMastery() {
@@ -393,6 +402,11 @@ async function setTarget(key) {
   els.predText.textContent = "—";
   els.coachTip.textContent = "Start with the checklist — then match live in the camera.";
   refreshMasteryUi();
+  updateLiveCue({
+    title: key,
+    tip: "Match this letter / number in the camera",
+    src: dictUrl(key),
+  });
 
   try {
     const info = await api(`/api/instructions/${encodeURIComponent(key)}`);
@@ -406,7 +420,12 @@ async function setTarget(key) {
       )
       .join("");
     if (els.stepProgress) els.stepProgress.textContent = `0 / ${state.stepCount}`;
-    if (info.image_url) els.targetImg.src = info.image_url + `?v=${Date.now()}`;
+    if (info.image_url) {
+      els.targetImg.src = info.image_url + `?v=${Date.now()}`;
+      updateLiveCue({ title: key, tip: info.remember || "", src: info.image_url });
+    } else {
+      updateLiveCue({ title: key, tip: info.remember || "", src: dictUrl(key) });
+    }
   } catch {
     els.targetRemember.textContent = `Practice sign “${key}”`;
     els.howToSteps.innerHTML = `<li data-step="0" class="step-item"><span class="step-check"></span><span class="step-text">Look up how to form “${escapeHtml(key)}”.</span></li>`;
@@ -737,6 +756,11 @@ function showSentenceToken() {
     els.sentenceImg.src = img + `?v=1`;
     els.sentenceImg.alt = label;
   }
+  updateLiveCue({
+    title: label,
+    tip: phrase?.remember || (tok.kind === "letter" ? `Hold letter “${tok.key}”` : `Copy “${label}”`),
+    src: img,
+  });
 
   const steps =
     phrase?.steps ||
@@ -829,7 +853,7 @@ function evaluateHand(hand63) {
   }
 
   const target = state.learnTab === "quiz" ? state.quizTarget : state.target;
-  if (!hasRefs()) return;
+  if (!hasRefs() && !hasStaticModel()) return;
 
   const data = evaluateLocal(target, hand63);
   const pct = data.match_pct || 0;
@@ -856,7 +880,8 @@ function evaluateHand(hand63) {
 
   if (pct < 28) {
     if (state.lessonPhase !== "done") setLessonPhase(state.cameraOn ? "match" : "guide");
-    els.predMeta.textContent = `Target ${target} · shape your hand`;
+    els.predMeta.textContent =
+      data.scorer === "trained_mlp" && data.tip ? data.tip : `Target ${target} · shape your hand`;
   } else if (!hold.holding && !hold.done) {
     setLessonPhase("match");
     els.predMeta.textContent = data.tip || `Target ${target}`;
@@ -885,65 +910,29 @@ function evaluateHand(hand63) {
 function evaluateSentenceHand(hand63, now) {
   const tok = currentSentenceToken();
   if (!tok || state.sentenceLocked) return;
+  if (!hasRefs() && !hasStaticModel()) return;
 
-  if (tok.kind === "letter") {
-    if (!hasRefs()) return;
-    const data = evaluateLocal(tok.key, hand63);
-    const pct = data.match_pct || 0;
-    state.jointErrors = data.jointErrors;
-    const hold = state.hold.update(pct, now);
-    updateHoldRing(hold.progress);
-
-    if (now - state.lastUiAt < 40) return;
-    state.lastUiAt = now;
-
-    if (els.sentenceMatchBar) {
-      els.sentenceMatchBar.style.width = `${pct}%`;
-      els.sentenceMatchBar.classList.toggle("is-good", pct >= PASS_PCT);
-    }
-    if (els.sentenceMatchPct) els.sentenceMatchPct.textContent = `${pct.toFixed(0)}%`;
-    if (els.predText) els.predText.textContent = `${pct.toFixed(0)}%`;
-    if (els.sentenceCoach) els.sentenceCoach.textContent = data.tip || "";
-    applySentenceSteps(data.stepUnlock || 0);
-
-    if (hold.holding) setLessonPhase("hold");
-    else if (pct >= 28) setLessonPhase("match");
-
-    if (hold.done) advanceSentenceToken();
-    return;
-  }
-
-  // Phrase: hand presence + steady hold counts as confirm (motion signs aren't in landmark set yet)
-  state.jointErrors = null;
-  // Use a lower pass bar so guided phrases like thank_you actually complete
-  const phrasePass = 50;
-  const presentScore = 90;
-  // Temporarily lower hold threshold for phrases
-  const prevPass = state.hold.passPct;
-  state.hold.passPct = phrasePass;
-  const hold = state.hold.update(presentScore, now);
-  state.hold.passPct = prevPass;
+  const data = evaluateLocal(tok.key, hand63);
+  const pct = data.match_pct || 0;
+  state.jointErrors = data.jointErrors;
+  const hold = state.hold.update(pct, now);
   updateHoldRing(hold.progress);
 
   if (now - state.lastUiAt < 40) return;
   state.lastUiAt = now;
 
-  const pct = Math.round(hold.progress * 100);
   if (els.sentenceMatchBar) {
-    els.sentenceMatchBar.style.width = `${Math.max(35, pct)}%`;
-    els.sentenceMatchBar.classList.toggle("is-good", hold.progress > 0.7);
+    els.sentenceMatchBar.style.width = `${pct}%`;
+    els.sentenceMatchBar.classList.toggle("is-good", pct >= PASS_PCT);
   }
-  if (els.sentenceMatchPct) els.sentenceMatchPct.textContent = `${pct}%`;
-  if (els.predText) els.predText.textContent = `${pct}%`;
-  if (els.sentenceCoach) {
-    els.sentenceCoach.textContent = hold.holding
-      ? `Hold after the motion… ${pct}%`
-      : `Show your hand and perform “${tok.label || tok.key}”, then hold still.`;
-  }
-  applySentenceSteps(hold.progress > 0.3 ? 1 : 0);
-  if (hold.progress > 0.55) applySentenceSteps(2);
-  if (hold.progress > 0.85) applySentenceSteps(3);
-  setLessonPhase(hold.holding ? "hold" : "match");
+  if (els.sentenceMatchPct) els.sentenceMatchPct.textContent = `${pct.toFixed(0)}%`;
+  if (els.predText) els.predText.textContent = `${pct.toFixed(0)}%`;
+  if (els.sentenceCoach) els.sentenceCoach.textContent = data.tip || "";
+  applySentenceSteps(data.stepUnlock || 0);
+
+  if (hold.holding) setLessonPhase("hold");
+  else if (pct >= 28) setLessonPhase("match");
+
   if (hold.done) advanceSentenceToken();
 }
 
@@ -1048,7 +1037,8 @@ function onResults(results) {
     if (seqBuf.ready() && state.modelLoaded) predictWindow(seqBuf.getWindow());
   }
 
-  let hand = extractPrimaryHand63(results);
+  const aspect = (els.video.videoWidth || 640) / (els.video.videoHeight || 480);
+  let hand = extractPrimaryHand63(results, aspect);
   if (hand) {
     state.smoothHand = smoothHand63(state.smoothHand, hand, 0.55);
     hand = state.smoothHand;
@@ -1547,6 +1537,12 @@ async function bootApp() {
     console.info(`Coach refs loaded: ${n}`);
   } catch (err) {
     console.warn("Could not load coach refs", err);
+  }
+  try {
+    const ok = loadStaticModel(await api("/api/static-model"));
+    console.info(`Trained A–Z model loaded: ${ok}`);
+  } catch (err) {
+    console.warn("Trained A–Z model unavailable — template scoring only", err);
   }
   if (els.holdRingArc) {
     els.holdRingArc.style.strokeDasharray = `${HOLD_CIRC}`;

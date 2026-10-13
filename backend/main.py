@@ -182,6 +182,8 @@ def health() -> Dict[str, Any]:
         "static_ready": _static_clf.ready,
         "labels": _labels,
         "static_labels": _static_clf.list_labels(),
+        "static_source": _static_clf.source,
+        "static_metrics": _static_clf.model.meta.get("metrics"),
         "feature_dim": FEATURE_DIM,
         "window_size": WINDOW_SIZE,
         "message": _load_error,
@@ -401,6 +403,22 @@ def references() -> Dict[str, Any]:
         "feature_dim": data.get("feature_dim", 63),
         "landmarks": data.get("landmarks", {}),
     }
+
+
+@app.get("/api/static-model")
+def static_model() -> Dict[str, Any]:
+    """Trained A–Z MLP weights for on-device scoring (same net as /api/evaluate)."""
+    from src.engine.static_model import DIGIT_PATH, EXEMPLAR_PATH, MODEL_PATH, PHRASE_HANDSHAPES
+
+    if not MODEL_PATH.exists():
+        raise HTTPException(404, "static_mlp.json missing — run scripts/ml/train_static.py")
+    data = json.loads(MODEL_PATH.read_text(encoding="utf-8"))
+    data["phrase_handshapes"] = PHRASE_HANDSHAPES
+    if EXEMPLAR_PATH.exists():
+        data["exemplars"] = json.loads(EXEMPLAR_PATH.read_text(encoding="utf-8")).get("exemplars", {})
+    if DIGIT_PATH.exists():
+        data["digits"] = json.loads(DIGIT_PATH.read_text(encoding="utf-8"))
+    return data
 
 
 @app.get("/api/sentences")

@@ -1,0 +1,343 @@
+{
+  "feature": "hand63_aspect_v1",
+  "n_samples": 12062,
+  "labels": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N",
+    "O",
+    "P",
+    "Q",
+    "R",
+    "S",
+    "T",
+    "U",
+    "V",
+    "W",
+    "X",
+    "Y",
+    "Z"
+  ],
+  "class_counts": {
+    "A": 501,
+    "B": 517,
+    "C": 451,
+    "D": 536,
+    "E": 493,
+    "F": 532,
+    "G": 501,
+    "H": 478,
+    "I": 502,
+    "J": 341,
+    "K": 542,
+    "L": 595,
+    "M": 424,
+    "N": 446,
+    "O": 406,
+    "P": 497,
+    "Q": 370,
+    "R": 480,
+    "S": 405,
+    "T": 442,
+    "U": 499,
+    "V": 513,
+    "W": 425,
+    "X": 413,
+    "Y": 437,
+    "Z": 316
+  },
+  "group_split_comparison": {
+    "mlp": {
+      "accuracy": 93.83,
+      "macro_precision": 93.5,
+      "macro_recall": 93.54,
+      "macro_f1": 93.47,
+      "n": 2400,
+      "mirrored_hand_accuracy": 93.42,
+      "train_seconds": 452.6
+    },
+    "mlp_large": {
+      "accuracy": 94.54,
+      "macro_precision": 94.22,
+      "macro_recall": 94.26,
+      "macro_f1": 94.17,
+      "n": 2400,
+      "mirrored_hand_accuracy": 93.75,
+      "train_seconds": 461.4
+    },
+    "svm_rbf": {
+      "accuracy": 93.42,
+      "macro_precision": 93.4,
+      "macro_recall": 93.21,
+      "macro_f1": 93.2,
+      "n": 2400,
+      "mirrored_hand_accuracy": 93.21,
+      "train_seconds": 64.5
+    },
+    "random_forest": {
+      "accuracy": 93.29,
+      "macro_precision": 93.07,
+      "macro_recall": 93.13,
+      "macro_f1": 92.96,
+      "n": 2400,
+      "mirrored_hand_accuracy": 93.21,
+      "train_seconds": 76.0
+    },
+    "logreg": {
+      "accuracy": 89.71,
+      "macro_precision": 89.24,
+      "macro_recall": 89.21,
+      "macro_f1": 89.11,
+      "n": 2400,
+      "mirrored_hand_accuracy": 89.46,
+      "train_seconds": 27.6
+    }
+  },
+  "cross_dataset": {
+    "mlp": {
+      "train_atalay_test_others": {
+        "accuracy": 48.87,
+        "macro_precision": 58.2,
+        "macro_recall": 48.66,
+        "macro_f1": 49.75,
+        "n": 7974
+      },
+      "train_marxulia_test_others": {
+        "accuracy": 70.77,
+        "macro_precision": 72.21,
+        "macro_recall": 68.62,
+        "macro_f1": 67.69,
+        "n": 3431
+      }
+    },
+    "mlp_large": {
+      "train_atalay_test_others": {
+        "accuracy": 48.83,
+        "macro_precision": 60.63,
+        "macro_recall": 48.86,
+        "macro_f1": 50.28,
+        "n": 7974
+      },
+      "train_marxulia_test_others": {
+        "accuracy": 70.36,
+        "macro_precision": 74.0,
+        "macro_recall": 67.92,
+        "macro_f1": 68.1,
+        "n": 3431
+      }
+    }
+  },
+  "chosen_mlp": "mlp",
+  "group_split_mlp_per_class": {
+    "A": {
+      "precision": 96.2,
+      "recall": 89.5,
+      "f1": 92.8,
+      "support": 86
+    },
+    "B": {
+      "precision": 97.0,
+      "recall": 99.0,
+      "f1": 98.0,
+      "support": 98
+    },
+    "C": {
+      "precision": 89.2,
+      "recall": 95.2,
+      "f1": 92.1,
+      "support": 104
+    },
+    "D": {
+      "precision": 93.9,
+      "recall": 93.9,
+      "f1": 93.9,
+      "support": 99
+    },
+    "E": {
+      "precision": 91.9,
+      "recall": 91.9,
+      "f1": 91.9,
+      "support": 86
+    },
+    "F": {
+      "precision": 97.6,
+      "recall": 98.4,
+      "f1": 98.0,
+      "support": 126
+    },
+    "G": {
+      "precision": 96.9,
+      "recall": 94.1,
+      "f1": 95.5,
+      "support": 101
+    },
+    "H": {
+      "precision": 96.0,
+      "recall": 98.0,
+      "f1": 97.0,
+      "support": 99
+    },
+    "I": {
+      "precision": 96.6,
+      "recall": 92.7,
+      "f1": 94.6,
+      "support": 123
+    },
+    "J": {
+      "precision": 89.0,
+      "recall": 94.2,
+      "f1": 91.5,
+      "support": 69
+    },
+    "K": {
+      "precision": 97.9,
+      "recall": 96.8,
+      "f1": 97.4,
+      "support": 95
+    },
+    "L": {
+      "precision": 97.3,
+      "recall": 96.4,
+      "f1": 96.9,
+      "support": 112
+    },
+    "M": {
+      "precision": 85.9,
+      "recall": 96.3,
+      "f1": 90.8,
+      "support": 82
+    },
+    "N": {
+      "precision": 96.5,
+      "recall": 90.2,
+      "f1": 93.3,
+      "support": 92
+    },
+    "O": {
+      "precision": 89.5,
+      "recall": 89.5,
+      "f1": 89.5,
+      "support": 57
+    },
+    "P": {
+      "precision": 91.7,
+      "recall": 94.3,
+      "f1": 93.0,
+      "support": 106
+    },
+    "Q": {
+      "precision": 90.0,
+      "recall": 80.8,
+      "f1": 85.1,
+      "support": 78
+    },
+    "R": {
+      "precision": 93.3,
+      "recall": 92.5,
+      "f1": 92.9,
+      "support": 106
+    },
+    "S": {
+      "precision": 91.7,
+      "recall": 93.0,
+      "f1": 92.3,
+      "support": 71
+    },
+    "T": {
+      "precision": 91.0,
+      "recall": 94.2,
+      "f1": 92.6,
+      "support": 86
+    },
+    "U": {
+      "precision": 96.3,
+      "recall": 94.6,
+      "f1": 95.5,
+      "support": 111
+    },
+    "V": {
+      "precision": 97.2,
+      "recall": 94.5,
+      "f1": 95.8,
+      "support": 109
+    },
+    "W": {
+      "precision": 93.4,
+      "recall": 91.0,
+      "f1": 92.2,
+      "support": 78
+    },
+    "X": {
+      "precision": 92.5,
+      "recall": 93.5,
+      "f1": 93.0,
+      "support": 92
+    },
+    "Y": {
+      "precision": 93.3,
+      "recall": 95.9,
+      "f1": 94.6,
+      "support": 73
+    },
+    "Z": {
+      "precision": 88.9,
+      "recall": 91.8,
+      "f1": 90.3,
+      "support": 61
+    }
+  },
+  "group_split_mlp_top_confusions": [
+    {
+      "true": "N",
+      "pred": "M",
+      "count": 5
+    },
+    {
+      "true": "I",
+      "pred": "J",
+      "count": 5
+    },
+    {
+      "true": "T",
+      "pred": "M",
+      "count": 4
+    },
+    {
+      "true": "Q",
+      "pred": "P",
+      "count": 4
+    },
+    {
+      "true": "Q",
+      "pred": "C",
+      "count": 4
+    },
+    {
+      "true": "U",
+      "pred": "R",
+      "count": 3
+    },
+    {
+      "true": "R",
+      "pred": "U",
+      "count": 3
+    },
+    {
+      "true": "Q",
+      "pred": "G",
+      "count": 3
+    }
+  ],
+  "final_train_samples_augmented": 60310
+}

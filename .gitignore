@@ -1,4 +1,6 @@
 .venv/
+.venv_nick/
+_vendor/
 node_modules/
 __pycache__/
 *.py[cod]
@@ -16,3 +18,16 @@ data/raw/**
 data/processed/**
 !data/processed/.gitkeep
 models/*.pt
+Tensorflow/workspace/images/collected/
+Tensorflow/workspace/images/train/**
+Tensorflow/workspace/images/test/**
+!Tensorflow/workspace/images/train/.gitkeep
+!Tensorflow/workspace/images/test/.gitkeep
+Tensorflow/models/
+Tensorflow/workspace/models/my_ssd_mobnet/
+Tensorflow/workspace/pre-trained-models/
+
+# ML datasets (re-download: python scripts/ml/fetch_datasets.py)
+data/external/
+data/landmarks/*_only.npz
+models/hand_landmarker.task

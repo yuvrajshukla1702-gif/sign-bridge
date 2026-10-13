@@ -5,9 +5,30 @@ Set-Location $root
 
 $py = Join-Path $root ".venv\Scripts\python.exe"
 if (-not (Test-Path $py)) {
-  Write-Host "Missing .venv. Run: python -m venv .venv"
-  Write-Host "Then: .\.venv\Scripts\pip install -r requirements.txt"
-  exit 1
+  Write-Host "Missing .venv — creating it..."
+  $pyLauncher = $null
+  foreach ($c in @("py -3.13", "py -3.12", "py -3.11", "python")) {
+    try {
+      $ver = Invoke-Expression "$c -c `"import sys; print(sys.version)`"" 2>$null
+      if ($ver) { $pyLauncher = $c; break }
+    } catch {}
+  }
+  if (-not $pyLauncher) {
+    Write-Host "No Python found. Install Python 3.11+ then retry."
+    exit 1
+  }
+  if ($pyLauncher -like "py *") {
+    Invoke-Expression "$pyLauncher -m venv `"$root\.venv`""
+  } else {
+    & $pyLauncher -m venv "$root\.venv"
+  }
+  if (-not (Test-Path $py)) {
+    Write-Host "Failed to create .venv"
+    exit 1
+  }
+  Write-Host "Installing web dependencies..."
+  & $py -m pip install -q --upgrade pip
+  & $py -m pip install -q "fastapi>=0.110" "uvicorn[standard]>=0.27" python-multipart numpy Pillow python-dotenv requests tqdm
 }
 
 function Test-ApiHealthy {

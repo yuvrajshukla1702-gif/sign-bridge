@@ -135,13 +135,16 @@ def collect(
 
 
 def parse_args() -> argparse.Namespace:
-    p = argparse.ArgumentParser(description="Record sign keypoint sequences")
-    p.add_argument("--label", required=True, help="Class name, e.g. thank_you")
-    p.add_argument("--samples", type=int, default=30)
+    p = argparse.ArgumentParser(
+        description="Record sign keypoint sequences (MediaPipe Holistic → .npy), "
+        "aligned with Nick Renotte-style action detection (fixed ~30-frame windows)."
+    )
+    p.add_argument("--label", required=True, help="Class name, e.g. thank_you / hello / iloveyou")
+    p.add_argument("--samples", type=int, default=30, help="Number of clips to record (Nick tutorial uses ~30)")
     p.add_argument("--camera", type=int, default=0)
     p.add_argument("--countdown", type=float, default=2.0)
-    p.add_argument("--min-frames", type=int, default=15)
-    p.add_argument("--max-frames", type=int, default=45)
+    p.add_argument("--min-frames", type=int, default=30, help="Minimum frames kept per clip")
+    p.add_argument("--max-frames", type=int, default=30, help="Auto-stop at this many frames (default 30)")
     return p.parse_args()
 
 

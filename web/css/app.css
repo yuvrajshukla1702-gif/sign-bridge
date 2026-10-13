@@ -1288,6 +1288,9 @@ body {
 .target-visual img {
   width: 112px;
   height: 138px;
+  object-fit: contain;
+  background: #f4f7fb;
+  border-radius: 12px;
 }
 
 .how-to-live {
@@ -1528,5 +1531,63 @@ body {
 .sent-arrow {
   color: var(--muted);
   font-size: 0.8rem;
+}
+
+/* Live visual cue card on camera */
+.live-cue {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  width: min(168px, 28vw);
+  padding: 0.55rem;
+  border-radius: 16px;
+  border: 1px solid rgba(94, 209, 203, 0.35);
+  background: linear-gradient(160deg, rgba(7, 16, 24, 0.92), rgba(16, 42, 54, 0.88));
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+  z-index: 4;
+  animation: rise-in 0.6s ease both;
+}
+
+.live-cue-kicker {
+  margin: 0 0 0.35rem;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--teal-bright);
+}
+
+.live-cue img {
+  width: 100%;
+  aspect-ratio: 0.85;
+  object-fit: contain;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: #f4f7fb;
+  display: block;
+}
+
+.live-cue-title {
+  margin: 0.45rem 0 0.15rem;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.live-cue-tip {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.72rem;
+  line-height: 1.35;
+}
+
+@media (max-width: 720px) {
+  .live-cue {
+    width: 112px;
+    padding: 0.4rem;
+  }
+  .live-cue-tip { display: none; }
 }
 

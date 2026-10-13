@@ -1,0 +1,42 @@
+{
+  "accuracy_self_match": {
+    "mean_match_pct": 100.0,
+    "pass_rate_pct": 100.0,
+    "threshold": 78.0,
+    "labels": 26,
+    "note": "A-Z ref vs self"
+  },
+  "accuracy_noisy_self": {
+    "noise_sigma": 0.03,
+    "mean_match_pct": 98.18,
+    "pass_rate_pct": 100.0,
+    "note": "camera-like jitter; target ~93%"
+  },
+  "accuracy_static_classifier": {
+    "top1_pct": 100.0,
+    "labels": 26,
+    "scope": "A-Z",
+    "ready": true
+  },
+  "accuracy_discrimination": {
+    "wrong_label_fail_rate_pct": 100.0,
+    "mean_score_gap_right_minus_wrong": 75.73
+  },
+  "accuracy_phrase_self_match": {
+    "mean_match_pct": 100.0,
+    "pass_rate_pct": 100.0,
+    "labels": 12,
+    "note": "Lesson 2 phrases use real landmark matching"
+  },
+  "latency_local_evaluate_ms": {
+    "mean_ms": 0.218,
+    "p50_ms": 0.169,
+    "p95_ms": 0.361
+  },
+  "pass_pct": 78.0,
+  "coach_js_pass_pct": 78,
+  "backend": {
+    "scoring": "tip-weighted + competitor margin",
+    "phrases": "static handshape refs in static_landmarks.json"
+  }
+}

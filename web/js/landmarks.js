@@ -7,10 +7,15 @@ export const FEATURE_DIM = 147;
 export const HAND_LANDMARKS = 21;
 export const POSE_SELECTED = [0, 11, 12, 13, 14, 15, 16];
 
-function normalizeHand(pts) {
+/** aspect = frame width / height; must match src/engine/hand_features.py (hand63_aspect_v1). */
+function normalizeHand(pts, aspect = 1) {
   if (!pts) return new Float32Array(HAND_LANDMARKS * 3);
   const wrist = pts[0];
-  const centered = pts.map((p) => [p[0] - wrist[0], p[1] - wrist[1], p[2] - wrist[2]]);
+  const centered = pts.map((p) => [
+    (p[0] - wrist[0]) * aspect,
+    p[1] - wrist[1],
+    (p[2] - wrist[2]) * aspect,
+  ]);
   let scale = 0;
   for (const p of centered) {
     const n = Math.hypot(p[0], p[1]);
@@ -33,7 +38,7 @@ function landmarksToArray(handLandmarks) {
 }
 
 /** Prefer right hand, else left — flat Float32Array(63). Works with Holistic or Hands results. */
-export function extractPrimaryHand63(results) {
+export function extractPrimaryHand63(results, aspect = 1) {
   // Holistic
   let pts =
     landmarksToArray(results.rightHandLandmarks) ||
@@ -51,7 +56,7 @@ export function extractPrimaryHand63(results) {
     pts = landmarksToArray(results.multiHandLandmarks[idx]);
   }
   if (!pts) return null;
-  return normalizeHand(pts);
+  return normalizeHand(pts, aspect);
 }
 
 /** EMA smooth a 63-float hand vector */

@@ -65,21 +65,28 @@ if (-not (Test-ApiHealthy)) {
   Start-ApiServer
 }
 
-# 2) Open desktop window immediately
-if (-not (Test-Path $exe)) {
-  Write-Host "Missing exe. Build once with: npm run tauri:build"
-  "Missing exe" | Out-File $log -Append -Encoding utf8
-  exit 1
+# 2) Wait briefly for API if we just started it, then open UI
+if (-not (Test-ApiHealthy)) {
+  for ($i = 0; $i -lt 40; $i++) {
+    Start-Sleep -Milliseconds 250
+    if (Test-ApiHealthy) { break }
+  }
 }
 
-$running = Get-Process -Name "sign-bridge" -ErrorAction SilentlyContinue
-if ($running) {
-  $shell = New-Object -ComObject WScript.Shell
-  $shell.AppActivate("Sign Bridge") | Out-Null
-  "Focused existing window" | Out-File $log -Append -Encoding utf8
+if (Test-Path $exe) {
+  $running = Get-Process -Name "sign-bridge" -ErrorAction SilentlyContinue
+  if ($running) {
+    $shell = New-Object -ComObject WScript.Shell
+    $shell.AppActivate("Sign Bridge") | Out-Null
+    "Focused existing window" | Out-File $log -Append -Encoding utf8
+  } else {
+    Start-Process -FilePath $exe -WorkingDirectory $root
+    "Launched exe" | Out-File $log -Append -Encoding utf8
+  }
 } else {
-  Start-Process -FilePath $exe -WorkingDirectory $root
-  "Launched exe" | Out-File $log -Append -Encoding utf8
+  # Desktop binary not built — open browser instead of failing silently
+  Start-Process "http://127.0.0.1:8000/"
+  "Opened browser (no sign-bridge.exe)" | Out-File $log -Append -Encoding utf8
 }
 
 exit 0

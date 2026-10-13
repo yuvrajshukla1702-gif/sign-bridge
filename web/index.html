@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/app.css?v=sent2" />
+  <link rel="stylesheet" href="/css/app.css?v=cues4" />
 </head>
 <body>
   <div id="bootSplash" class="boot-splash">
@@ -158,6 +158,13 @@
               <p id="holdLabel" class="hold-label">Match</p>
             </div>
           </div>
+
+          <aside class="live-cue" id="liveCue" aria-label="Visual cue for current sign">
+            <p class="live-cue-kicker">Visual cue</p>
+            <img id="liveCueImg" src="/assets/signs_dict/alphabet/A.png" alt="Sign visual cue" />
+            <p id="liveCueTitle" class="live-cue-title">A</p>
+            <p id="liveCueTip" class="live-cue-tip">Copy this handshape</p>
+          </aside>
 
           <div class="stage-overlay stage-overlay-learn">
             <p id="lessonPhase" class="phase-chip">Ready</p>
@@ -370,7 +377,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/holistic/holistic.js" crossorigin="anonymous"></script>
-  <script src="/js/live-reload.js?v=sent2"></script>
-  <script type="module" src="/js/app.js?v=sent2"></script>
+  <script src="/js/live-reload.js?v=cues4"></script>
+  <script type="module" src="/js/app.js?v=cues4"></script>
 </body>
 </html>
